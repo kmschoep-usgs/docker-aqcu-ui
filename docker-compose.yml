@@ -1,0 +1,12 @@
+---
+version: '3.5'
+
+services:
+  aqcu-ui:
+    build: .
+    image: aqcu-ui:1.9
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    env_file:
+      - "compose${AQCU_ENV_LOCAL}.env"
