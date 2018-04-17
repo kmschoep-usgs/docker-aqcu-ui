@@ -2,7 +2,7 @@ FROM tomcat:8.0-jre8
 
 MAINTAINER Ivan Suftin <isuftin@usgs.gov>
 
-EXPOSE 8080
+EXPOSE 8081
 
 RUN wget -O /usr/local/tomcat/webapps/aqcu-ui.war "http://cida-eros-maven-public.er.usgs.gov:8080/maven/service/local/artifact/maven/redirect?r=cida-public-releases&g=gov.usgs.aqcu&a=aqcu-ui&v=1.9&e=war"
 
@@ -10,9 +10,12 @@ RUN wget -O /usr/local/tomcat/webapps/probe.war "https://github.com/psi-probe/ps
 
 RUN mkdir -p /usr/local/tomcat/ssl
 
-RUN keytool -genkey -noprompt -keystore /usr/local/tomcat/ssl/.keystore -validity 999 -keysize 2048 -alias aqcu-ui -keyalg RSA -keypass changeit -storepass changeit -dname "CN=aqcu-ui, OU=owi, O=owi, L=middleton, S=WI, C=US" 
+ADD entrypoint.sh entrypoint.sh
+RUN ["chmod", "+x", "entrypoint.sh"]
 
-RUN keytool -selfcert -alias aqcu-ui -keypass changeit -dname "CN=aqcu-ui, OU=owi, O=owi, L=middleton, S=WI, C=US" -keystore /usr/local/tomcat/ssl/.keystore -storepass changeit -validity 999
+RUN keytool -genkey -noprompt -keystore ${keystoreLocation} -validity 999 -keysize 2048 -alias aqcu-ui -keyalg RSA -keypass changeit -storepass changeit -dname "CN=aqcu-ui, OU=owi, O=owi, L=middleton, S=WI, C=US" 
+
+RUN keytool -selfcert -alias aqcu-ui -keypass changeit -dname "CN=aqcu-ui, OU=owi, O=owi, L=middleton, S=WI, C=US" -keystore ${${keystoreLocation}} -storepass changeit -validity 999
 
 COPY server.xml /usr/local/tomcat/conf/server.xml
 

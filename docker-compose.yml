@@ -6,7 +6,7 @@ services:
     build: .
     image: aqcu-ui:1.9
     ports:
-      - "8080:8080"
-      - "8443:8443"
+      - "8081:8081"
+      - "8444:8444"
     env_file:
       - "compose${AQCU_ENV_LOCAL}.env"
