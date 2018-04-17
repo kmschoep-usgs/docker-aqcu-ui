@@ -13,10 +13,6 @@ RUN mkdir -p /usr/local/tomcat/ssl
 ADD entrypoint.sh entrypoint.sh
 RUN ["chmod", "+x", "entrypoint.sh"]
 
-RUN keytool -genkey -noprompt -keystore ${keystoreLocation} -validity 999 -keysize 2048 -alias aqcu-ui -keyalg RSA -keypass changeit -storepass changeit -dname "CN=aqcu-ui, OU=owi, O=owi, L=middleton, S=WI, C=US" 
-
-RUN keytool -selfcert -alias aqcu-ui -keypass changeit -dname "CN=aqcu-ui, OU=owi, O=owi, L=middleton, S=WI, C=US" -keystore ${keystoreLocation} -storepass changeit -validity 999
-
 COPY server.xml /usr/local/tomcat/conf/server.xml
 
 COPY context.xml /usr/local/tomcat/conf/context.xml
