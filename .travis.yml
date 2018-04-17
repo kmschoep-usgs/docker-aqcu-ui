@@ -25,7 +25,7 @@ before_install:
 
 install:
   - docker build -t aqcu-ui .
-  - docker-compose -f docker-compose-default.yml up -d --build
+  - docker-compose -f docker-compose.yml up -d --build
 
 script:
-  - docker ps | grep -q aqcu-framework
+  - docker ps | grep -q aqcu-ui
